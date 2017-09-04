@@ -1,0 +1,1 @@
+This is a practice project for CS101, will be updated and improved as I learn better practices. For now, converting to an Object Oriented approach. 
