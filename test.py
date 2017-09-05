@@ -4,10 +4,10 @@ shoe1 = blackjack.Shoe(1)
 
 print (shoe1.list)
 
-player1_hand = blackjack.Hand("Jones Barnacle", 50, shoe1.draw(2))
+Jones = blackjack.Player(False)
 
-print (player1_hand.person, player1_hand.cards, player1_hand.value)
+Jones.add_hand_to_player(shoe1,2)
 
-player1_hand.add_cards(shoe1.draw(1))
+print(Jones.hands[0].cards, Jones.hands[0].value(), Jones.hands[1].cards, Jones.hands[1].value())
 
-print (shoe1.list, player1_hand.cards, player1_hand.value)
+
