@@ -127,6 +127,9 @@ class Round(object):
     def add_player_to_round(self, player):
         self.players.append(player)
 
+    def get_players(self):
+        return self.players
+
     def set_player_wager(self, player, wager):
         self.wagers[player.name] = wager
 
@@ -181,19 +184,19 @@ class Menu(object):
 class Game(object):
 
     def __init__(self):
-        Game.start(self)
-
-    def start(self):
         self.shoe = Shoe(6)
         self.players = [Player("Player1"), Player("Player2"), Player("Dealer", True)]
-        self.current_round = Round(self.players, self.shoe)
-        print(self.current_round.players)
+        self.current_round = Round(self.shoe, self.players)
+
+    def start(self):
 
         for player in self.current_round.players:
-            #if player.is_dealer is False:
+            if player.is_dealer is False:
                 wager = input("Enter your wager" + player.name + ":")
                 self.current_round.set_player_wager(player, wager)
         print(self.current_round.wagers)
+
+
 
 
 

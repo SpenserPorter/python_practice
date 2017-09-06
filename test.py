@@ -1,3 +1,6 @@
 import blackjack
 
-blackjack.Game()
+game1 = blackjack.Game()
+
+game1.start()
+
