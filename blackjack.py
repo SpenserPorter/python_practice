@@ -102,6 +102,9 @@ class Player(object):
         for unused in range(number_of_hands):
             self.hands.append(Hand(shoe.draw_cards(number_of_cards)))
 
+    def get_balance(self):
+        return self.balance
+
     def modify_balance(self, amount):
         self.balance += amount
 
@@ -120,18 +123,33 @@ class Round(object):
 
     def __init__(self, shoe, players):
         self.shoe = shoe
-        self.players = players
-        self.wagers = {}
+        self.dict = {}
+        for player in players:
+            self.add_player_to_round(player)
         Round.round_id += 1
 
     def add_player_to_round(self, player):
-        self.players.append(player)
+        self.dict[player] = {'wager':0, 'hand':[]}
 
     def get_players(self):
-        return self.players
+        player_list = []
+        for p in self.dict:
+            player_list.append(p)
+        return player_list
 
     def set_player_wager(self, player, wager):
-        self.wagers[player.name] = wager
+        self.dict[player]['wager'] = wager
+
+    def get_player_wager(self, player):
+        return self.dict[player]['wager']
+
+    def add_player_hand(self, player, hand):
+        self.dict[player]['hands'].append(hand)
+
+    def get_player_hands(self, player):
+        return self.dict[player]['hand']
+
+
 
 class Menu(object):
 
@@ -158,28 +176,14 @@ class Menu(object):
 
     def print_menu(self):
 
-        print(
-            30 * "-", "Action", 30 * "-"
-            )
-        print(
-             "1. Hit"
-              )
-        print(
-             "2. Stand"
-                   )
+        print(30 * "-", "Action", 30 * "-")
+        print("1. Hit")
+        print("2. Stand")
         if self.state == 1:
-
-            print(
-                 "3. Double"
-                 )
-        # print(
-        # "4. Surrender"
-        # )
-        # print(
-        #     "5. Split")
-        print(
-        67 * "-"
-        )
+            print("3. Double")
+        # print("4. Surrender")
+        # print("5. Split")
+        print(67 * "-")
 
 class Game(object):
 
@@ -190,11 +194,33 @@ class Game(object):
 
     def start(self):
 
-        for player in self.current_round.players:
-            if player.is_dealer is False:
-                wager = input("Enter your wager" + player.name + ":")
+        print ("Round", self.current_round.round_id)
+
+        for player in self.current_round.get_players():
+            if not player.is_dealer:
+
+                print (player.name + "'s balance is " + str(player.balance))
+                place_bet = input("Place your bet " + player.name + ":")
+
+                while True: #validate bet is an integer between 1 and total balance
+                    try:
+                        wager = int(place_bet)
+                        if wager in range(1, player.get_balance() + 1):
+                            break
+                        place_bet = input("Please enter a valid bet " + player.name + ":")
+                    except ValueError:
+                        place_bet = input("Please enter a valid bet " + player.name + ":")
+
                 self.current_round.set_player_wager(player, wager)
-        print(self.current_round.wagers)
+                player.modify_balance(-1 * wager)
+
+            self.current_round.add_player_hand(player, Hand(self.shoe.draw_cards(2)))
+
+
+
+
+        for player in self.players:
+            print(self.current_round.dict[player])
 
 
 
