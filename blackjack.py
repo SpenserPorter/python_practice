@@ -123,31 +123,42 @@ class Round(object):
 
     def __init__(self, shoe, players):
         self.shoe = shoe
-        self.dict = {}
+        self.ledger = {}
         for player in players:
             self.add_player_to_round(player)
         Round.round_id += 1
 
-    def add_player_to_round(self, player):
-        self.dict[player] = {'wager':0, 'hand':[]}
+    def add_player_to_round(self, player): #add player to ledger with with 1st wager/hand
+        self.ledger[player] = [[0,[]]]
 
     def get_players(self):
         player_list = []
-        for p in self.dict:
+        for p in self.ledger:
             player_list.append(p)
         return player_list
 
-    def set_player_wager(self, player, wager):
-        self.dict[player]['wager'] = wager
+    def set_player_wager(self, player, wager, hand_index=0):
+        self.ledger[player][hand_index][0] = wager
 
-    def get_player_wager(self, player):
-        return self.dict[player]['wager']
+    def get_player_wager(self, player, hand_index=0):
+        return self.ledger[player][hand_index][0]
 
-    def add_player_hand(self, player, hand):
-        self.dict[player]['hands'].append(hand)
+    #Redundant with add_hand_to_player, remove later
+    # def initialize_player_hand(self, player, number_of_cards):
+    #     self.ledger[player][0]['hand'].append(Hand(self.shoe.draw_cards(number_of_cards)))
+
+    #add hand to player, default to 2 card hand
+
+    def add_hand_to_player(self, player, hand=Hand(self.shoe.draw_cards(2))):
+        if player not in ledger:
+            self.add_player_to_round(player)
+        self.ledger[player].append([0,[hand]])
 
     def get_player_hands(self, player):
-        return self.dict[player]['hand']
+        out = []
+        for wager_hand_pair in self.ledger[player]:
+            out.append(wager_hand_pair[1])
+        return out
 
 
 
@@ -155,7 +166,6 @@ class Menu(object):
 
     def __init__(self, state):
         self.state = state
-
 
     def menu(self):
         loop = True
@@ -214,8 +224,7 @@ class Game(object):
                 self.current_round.set_player_wager(player, wager)
                 player.modify_balance(-1 * wager)
 
-            self.current_round.add_player_hand(player, Hand(self.shoe.draw_cards(2)))
-
+            self.current_round.initialize_player_hand(player, 2)
 
 
 
