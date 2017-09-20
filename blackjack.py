@@ -55,8 +55,9 @@ class Shoe(list):
 
 class Hand(list):
 
-    def __init__(self, cards=[]):
-        self.cards = cards
+    def __init__(self, cards):
+        self.cards = []
+        self.add_cards(cards)
         self.is_bust = False
         self.state = 0
 
@@ -88,7 +89,9 @@ class Hand(list):
                 total -= 10
         return total
 
-    def get_cards(self): #Return list of cards in hand
+    def get_cards(self, card_index=None): #Return list of cards in hand
+        if card_index is not None:
+            return self.cards[card_index]
         return self.cards
 
 class Player(object):
@@ -98,24 +101,11 @@ class Player(object):
         self.balance = balance
         self.name = name
 
-    def add_hand_to_player(self, shoe, number_of_hands, number_of_cards):
-        for unused in range(number_of_hands):
-            self.hands.append(Hand(shoe.draw_cards(number_of_cards)))
-
     def get_balance(self):
         return self.balance
 
     def modify_balance(self, amount):
         self.balance += amount
-
-    def get_hands(self):
-        return self.hands
-
-    def get_hands_values(self):
-        hand_value_list = []
-        for hand in self.hands:
-            hand_value_list.append(Hand.get_value(hand))
-        return hand_value_list
 
 class Round(object):
 
@@ -129,7 +119,7 @@ class Round(object):
         Round.round_id += 1
 
     def add_player_to_round(self, player): #add player to ledger with with 1st wager/hand
-        self.ledger[player] = [[0,[]]]
+        self.ledger[player.name] = [[0,[]]]
 
     def get_players(self):
         player_list = []
@@ -138,28 +128,21 @@ class Round(object):
         return player_list
 
     def set_player_wager(self, player, wager, hand_index=0):
-        self.ledger[player][hand_index][0] = wager
+        self.ledger[player.name][hand_index][0] = wager
 
     def get_player_wager(self, player, hand_index=0):
-        return self.ledger[player][hand_index][0]
+        return self.ledger[player.name][hand_index][0]
 
-    #Redundant with add_hand_to_player, remove later
-    # def initialize_player_hand(self, player, number_of_cards):
-    #     self.ledger[player][0]['hand'].append(Hand(self.shoe.draw_cards(number_of_cards)))
-
-    #add hand to player, default to 2 card hand
-
-    def add_hand_to_player(self, player, hand=Hand(self.shoe.draw_cards(2))):
-        if player not in ledger:
+    def add_hand_to_player(self, player, hand_index, cards=None):
+        if player not in self.ledger:
             self.add_player_to_round(player)
-        self.ledger[player].append([0,[hand]])
+        if cards is not None:
+            self.ledger[player.name][hand_index][1] = [Hand(cards)]
+        else:
+            self.ledger[player.name][hand_index][1] = [Hand(self.shoe.draw_cards(2))]
 
-    def get_player_hands(self, player):
-        out = []
-        for wager_hand_pair in self.ledger[player]:
-            out.append(wager_hand_pair[1])
-        return out
-
+    def get_player_hand(self, player_name, hand_index = 0):
+        return self.ledger[player_name][hand_index][1][0]
 
 
 class Menu(object):
@@ -197,16 +180,22 @@ class Menu(object):
 
 class Game(object):
 
-    def __init__(self):
+    def __init__(self, number_of_players):
         self.shoe = Shoe(6)
-        self.players = [Player("Player1"), Player("Player2"), Player("Dealer", True)]
+        self.players = [Player("Dealer", True)]
+        self.initialize_player_list(number_of_players)
         self.current_round = Round(self.shoe, self.players)
+
+    def initialize_player_list(self, number_of_players):
+        for i in range(1, number_of_players + 1):
+            name = "Player" + str(i)
+            self.players.append(Player(name))
 
     def start(self):
 
         print ("Round", self.current_round.round_id)
 
-        for player in self.current_round.get_players():
+        for player in self.players:
             if not player.is_dealer:
 
                 print (player.name + "'s balance is " + str(player.balance))
@@ -224,12 +213,15 @@ class Game(object):
                 self.current_round.set_player_wager(player, wager)
                 player.modify_balance(-1 * wager)
 
-            self.current_round.initialize_player_hand(player, 2)
+            self.current_round.add_hand_to_player(player, 0)
+
+        print("Dealer shows: %s X" % (self.current_round.get_player_hand("Dealer").get_cards(0)))
 
 
-
+#test
         for player in self.players:
-            print(self.current_round.dict[player])
+            print(self.current_round.ledger[player.name][0][0])
+            print(player.name, player.balance, self.current_round.ledger[player.name])
 
 
 

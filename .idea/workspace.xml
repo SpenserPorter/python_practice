@@ -4,6 +4,7 @@
     <list default="true" id="c996527d-98a1-4973-b26e-b56509c16034" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/blackjack.py" afterPath="$PROJECT_DIR$/blackjack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,10 +21,8 @@
             <state relative-caret-position="323">
               <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
               <folding>
-                <marker date="1505848560690" expanded="true" signature="2316:2670" ph="..." />
-                <marker date="1505848560690" expanded="true" signature="3042:3139" ph="..." />
-                <marker date="1505848560690" expanded="true" signature="3100:3139" ph="..." />
-                <marker date="1505848560690" expanded="true" signature="6587:6677" ph="..." />
+                <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+                <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
               </folding>
             </state>
           </provider>
@@ -32,8 +31,8 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -47,8 +46,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/blackjack.py" />
+        <option value="$PROJECT_DIR$/test.py" />
       </list>
     </option>
   </component>
@@ -179,10 +178,27 @@
         <state relative-caret-position="323">
           <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
           <folding>
-            <marker date="1505848560690" expanded="true" signature="2316:2670" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3042:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3100:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="6587:6677" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blackjack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+          <folding>
+            <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
           </folding>
         </state>
       </provider>
@@ -200,10 +216,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1505848560690" expanded="true" signature="2316:2670" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3042:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3100:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="6587:6677" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
           </folding>
         </state>
       </provider>
@@ -221,10 +235,8 @@
         <state relative-caret-position="323">
           <caret line="19" column="17" lean-forward="true" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
           <folding>
-            <marker date="1505848560690" expanded="true" signature="2316:2670" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3042:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3100:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="6587:6677" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
           </folding>
         </state>
       </provider>
@@ -242,18 +254,16 @@
         <state relative-caret-position="323">
           <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
           <folding>
-            <marker date="1505848560690" expanded="true" signature="2316:2670" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3042:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="3100:3139" ph="..." />
-            <marker date="1505848560690" expanded="true" signature="6587:6677" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="1384:1414" ph="..." />
+            <marker date="1505935637727" expanded="true" signature="6619:6621" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="272">
+          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding />
         </state>
       </provider>
