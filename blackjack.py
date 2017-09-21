@@ -89,6 +89,11 @@ class Hand(list):
                 total -= 10
         return total
 
+    def is_blackjack(self):
+        if self.get_value() == 21 and len(self.cards) == 2:
+            return True
+        return False
+
     def get_cards(self, card_index=None): #Return list of cards in hand
         if card_index is not None:
             return self.cards[card_index]
@@ -107,6 +112,28 @@ class Player(object):
     def modify_balance(self, amount):
         self.balance += amount
 
+class HandWagerPair(object):
+
+    def __init__(self, hand, wager):
+        self.hand = hand
+        self.wager = wager
+
+    def __repr__(self):
+        return str(self.wager) + ' - ' + str(self.hand)
+
+    def set_wager(self, wager):
+        self.wager = wager
+
+    def set_hand(self, hand):
+        self.hand = hand
+
+    def get_hand(self):
+        return self.hand
+
+    def get_wager(self):
+        return self.wager
+
+
 class Round(object):
 
     round_id = 0
@@ -119,7 +146,7 @@ class Round(object):
         Round.round_id += 1
 
     def add_player_to_round(self, player): #add player to ledger with with 1st wager/hand
-        self.ledger[player.name] = [[0, None]]
+        self.ledger[player.name] = None
 
     def get_players(self):
         player_list = []
@@ -127,22 +154,22 @@ class Round(object):
             player_list.append(p)
         return player_list
 
-    def set_player_wager(self, player, wager, hand_index):
-        self.ledger[player.name][hand_index][0] = wager
+    def set_player_wager(self, player, wager, hand_index=0):
+        self.ledger[player.name][hand_index].set_wager(wager)
 
     def get_player_wager(self, player, hand_index=0):
-        return self.ledger[player.name][hand_index][0]
+        return self.ledger[player.name][hand_index].get_wager()
 
     def add_hand_to_player(self, player, hand_index, cards=None):
         if player not in self.ledger:
             self.add_player_to_round(player)
         if cards is not None:
-            self.ledger[player.name][hand_index][1] = Hand(cards)
+            self.ledger[player.name][hand_index].set_hand(Hand(cards))
         else:
-            self.ledger[player.name][hand_index][1] = Hand(self.shoe.draw_cards(2))
+            self.ledger[player.name][hand_index].set_hand(Hand(self.shoe.draw_cards(2)))
 
     def get_player_hand(self, player_name, hand_index = 0):
-        return self.ledger[player_name][hand_index][1]
+        return self.ledger[player_name][hand_index].get_hand()
 
 
 class Menu(object):
@@ -150,10 +177,10 @@ class Menu(object):
     def __init__(self, state):
         self.state = state
 
-    def menu(self):
+    def menu(self, player):
         loop = True
         while loop:  ## While loop which will keep going until loop = False
-            self.print_menu()  ## Displays menu
+            self.print_menu(player)  ## Displays menu
             choice = input("Enter your choice: ")
             if choice in ["1","h"]:
                 return "Hit"
@@ -167,9 +194,11 @@ class Menu(object):
                 return "Surrender"
             loop = False  # This will make the while loop to end as not value of loop is set to False
 
-    def print_menu(self):
 
-        print(30 * "-", "Action", 30 * "-")
+
+    def print_menu(self, player):
+
+        print(30 * "-", player.name + "'s", " Action", 30 * "-")
         print("1. Hit")
         print("2. Stand")
         if self.state == 1:
@@ -197,6 +226,8 @@ class Game(object):
 
         for player in self.players:
 
+            wager = 0
+
             if not player.is_dealer:
 
                 print (player.name + "'s balance is " + str(player.balance))
@@ -210,23 +241,34 @@ class Game(object):
                         place_bet = input("Please enter a valid bet " + player.name + ":")
                     except ValueError:
                         place_bet = input("Please enter a valid bet " + player.name + ":")
-                print("Test1")
+
                 player.modify_balance(-1 * wager)
-                print("Test2")
-                self.current_round.set_player_wager(player, wager, 0)
-                print("Test4")
 
-            self.current_round.add_hand_to_player(player, 0)
+            self.current_round.ledger[player.name] = [HandWagerPair(Hand(self.current_round.shoe.draw_cards(2)), wager)]
 
-        print("Dealer shows: %s X" % (self.current_round.get_player_hand("Dealer").get_cards(0)))
+
+        for player in self.players:
+            if not player.is_dealer:
+                game_state = 1
+                print("Dealer shows: %s X" % (self.current_round.get_player_hand("Dealer").get_cards(0)))
+                print("%s's hand: %s %i total" % (player.name, self.current_round.get_player_hand(player.name), self.current_round.get_player_hand(player.name).get_value()))
+
+                if self.current_round.get_player_hand(player.name).is_blackjack():
+                    print (player.name, "Blackjack!")
+                action = Menu(game_state).menu(player)
+
+                if action == "Hit":
+                    game_state = 2
+
+
+
+
 
 
 #test
-        print(self.current_round.ledger)
 
-        for player in self.players:
-            print(self.current_round.ledger[player.name][0][0])
-            print(player.name, player.balance, self.current_round.ledger[player.name])
+        # for player in self.players:
+        #     print(player.name, player.balance, self.current_round.ledger[player.name])
 
 
 
