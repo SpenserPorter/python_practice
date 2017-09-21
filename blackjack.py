@@ -119,7 +119,7 @@ class Round(object):
         Round.round_id += 1
 
     def add_player_to_round(self, player): #add player to ledger with with 1st wager/hand
-        self.ledger[player.name] = [[0,[]]]
+        self.ledger[player.name] = [[0, None]]
 
     def get_players(self):
         player_list = []
@@ -127,7 +127,7 @@ class Round(object):
             player_list.append(p)
         return player_list
 
-    def set_player_wager(self, player, wager, hand_index=0):
+    def set_player_wager(self, player, wager, hand_index):
         self.ledger[player.name][hand_index][0] = wager
 
     def get_player_wager(self, player, hand_index=0):
@@ -137,12 +137,12 @@ class Round(object):
         if player not in self.ledger:
             self.add_player_to_round(player)
         if cards is not None:
-            self.ledger[player.name][hand_index][1] = [Hand(cards)]
+            self.ledger[player.name][hand_index][1] = Hand(cards)
         else:
-            self.ledger[player.name][hand_index][1] = [Hand(self.shoe.draw_cards(2))]
+            self.ledger[player.name][hand_index][1] = Hand(self.shoe.draw_cards(2))
 
     def get_player_hand(self, player_name, hand_index = 0):
-        return self.ledger[player_name][hand_index][1][0]
+        return self.ledger[player_name][hand_index][1]
 
 
 class Menu(object):
@@ -196,6 +196,7 @@ class Game(object):
         print ("Round", self.current_round.round_id)
 
         for player in self.players:
+
             if not player.is_dealer:
 
                 print (player.name + "'s balance is " + str(player.balance))
@@ -209,9 +210,11 @@ class Game(object):
                         place_bet = input("Please enter a valid bet " + player.name + ":")
                     except ValueError:
                         place_bet = input("Please enter a valid bet " + player.name + ":")
-
-                self.current_round.set_player_wager(player, wager)
+                print("Test1")
                 player.modify_balance(-1 * wager)
+                print("Test2")
+                self.current_round.set_player_wager(player, wager, 0)
+                print("Test4")
 
             self.current_round.add_hand_to_player(player, 0)
 
@@ -219,9 +222,13 @@ class Game(object):
 
 
 #test
+        print(self.current_round.ledger)
+
         for player in self.players:
             print(self.current_round.ledger[player.name][0][0])
             print(player.name, player.balance, self.current_round.ledger[player.name])
+
+
 
 
 
