@@ -286,8 +286,8 @@ class Game(object):
 
 
                         if self.current_round.get_player_hand(player.name).is_blackjack():
-                            print ("%s Blackjack!, Win %f!" % (player.name, 2.5 * self.current_round.get_player_wager(player)))
-                            player.modify_balance(2.5 * self.current_round.get_player_wager(player))
+                            print ("%s Blackjack!, Win %f!" % (player.name, int(2.5 * self.current_round.get_player_wager(player))))
+                            player.modify_balance(int(2.5 * self.current_round.get_player_wager(player)))
                             break
 
                         action = Menu(self.current_round.game_state).menu(player)
@@ -324,7 +324,7 @@ class Game(object):
             if self.current_round.get_player_hand("Dealer").is_bust:
                 print("Dealer busts!")
                 for player in self.players:
-                    if not self.current_round.get_player_hand(player.name).is_bust and not player.is_dealer:
+                    if not self.current_round.get_player_hand(player.name).is_bust and not player.is_dealer and not self.current_round.get_player_hand(player.name).is_blackjack():
                         print("%s wins %i!" % (player.name, 2 * self.current_round.get_player_wager(player)))
                         player.modify_balance(2 * self.current_round.get_player_wager(player))
 
@@ -334,7 +334,7 @@ class Game(object):
                 print("Dealer shows %s %i total" % (self.current_round.get_player_hand("Dealer"),self.current_round.get_player_hand("Dealer").get_value()) )
 
                 for player in self.players:
-                    if not self.current_round.get_player_hand(player.name).is_bust and not player.is_dealer and not self.current_round.get_player_hand(player.name).is_blackjack:
+                    if not self.current_round.get_player_hand(player.name).is_bust and not player.is_dealer and not self.current_round.get_player_hand(player.name).is_blackjack():
                         result = self.current_round.get_result(player.name)
                         if result == "Push":
                             print("%s %s %i total, Pushes, wager %i returned" % (player.name, self.current_round.get_player_hand(player.name),self.current_round.get_player_hand(player.name).get_value(), self.current_round.get_player_wager(player)))
@@ -346,49 +346,3 @@ class Game(object):
                             print("%s %s %i total, Loses %i shit!!" % (player.name, self.current_round.get_player_hand(player.name),self.current_round.get_player_hand(player.name).get_value(), self.current_round.get_player_wager(player)))
 
             self.next_round(self.shoe, self.players)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#test
-
-        # for player in self.players:
-        #     print(player.name, player.balance, self.current_round.ledger[player.name])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
